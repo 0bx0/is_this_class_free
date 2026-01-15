@@ -1,0 +1,276 @@
+:root {
+    /* New Palette */
+    --bg-color: #1e1e1e;
+    --surface-color: #2d2d2d;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --accent-cyan: #a7f3d0;
+    /* Pale Cyan */
+    --accent-pink: #fbcfe8;
+    /* Muted Pink */
+    --accent-lime: #bef264;
+    /* Bright Lime */
+    --grid-border: #404040;
+    --booked-bg: #4a1d1d;
+    /* Dark Red */
+    --booked-text: #fca5a5;
+    /* Pale Red */
+
+    --current-day-bg: rgba(167, 243, 208, 0.05);
+    --current-hour-bg: rgba(167, 243, 208, 0.1);
+    --current-border: var(--accent-cyan);
+
+    --font-family: 'Outfit', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-weight: 600;
+    margin: 0;
+    font-size: 2rem;
+    color: var(--accent-cyan);
+    letter-spacing: -0.5px;
+}
+
+p {
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1.5rem;
+}
+
+/* Status Card */
+.status-card {
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    min-width: 200px;
+    justify-content: center;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.status-card.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.status-icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #555;
+}
+
+.status-card.free .status-icon {
+    background-color: var(--accent-lime);
+    box-shadow: 0 0 8px var(--accent-lime);
+}
+
+.status-card.booked .status-icon {
+    background-color: #f87171;
+    box-shadow: 0 0 8px #f87171;
+}
+
+.status-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.status-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.status-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Input */
+.input-group {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+}
+
+input {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    border: 2px solid var(--grid-border);
+    border-radius: 50px;
+    /* Pill shape */
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+    outline: none;
+    font-family: var(--font-family);
+    box-sizing: border-box;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    border-color: var(--accent-cyan);
+    background-color: #333;
+    box-shadow: 0 0 0 4px rgba(167, 243, 208, 0.1);
+}
+
+.status-msg {
+    height: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Timetable Grid */
+.timetable-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--grid-border);
+    background-color: var(--surface-color);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.timetable {
+    display: grid;
+    grid-template-columns: 50px repeat(11, minmax(90px, 1fr));
+    gap: 1px;
+    background-color: var(--grid-border);
+}
+
+.header-cell,
+.day-cell,
+.slot-cell {
+    background-color: var(--surface-color);
+    padding: 12px 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
+}
+
+.header-cell {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background-color: #252525;
+    font-weight: 600;
+    color: var(--accent-pink);
+}
+
+.time-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.day-cell {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background-color: #252525;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    border-right: 1px solid var(--grid-border);
+}
+
+/* Slot Styling */
+.slot-cell {
+    font-size: 0.8rem;
+    transition: background-color 0.2s;
+    position: relative;
+    color: var(--text-secondary);
+}
+
+.slot-cell.booked {
+    background-color: var(--booked-bg);
+    color: var(--booked-text);
+    font-weight: 500;
+    border: 1px solid rgba(248, 113, 113, 0.2);
+}
+
+.course-code {
+    display: block;
+    line-height: 1.3;
+}
+
+/* Highlights */
+.current-day-row {
+    background-color: var(--current-day-bg) !important;
+}
+
+.current-hour-col {
+    background-color: var(--current-hour-bg) !important;
+    border-left: 1px solid var(--current-border);
+    border-right: 1px solid var(--current-border);
+}
+
+.current-now {
+    box-shadow: inset 0 0 0 2px var(--current-border);
+    background-color: rgba(167, 243, 208, 0.15) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
