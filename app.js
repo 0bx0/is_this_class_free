@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Fetch and Parse Data
-    Papa.parse('../temp.csv', {
+    Papa.parse('./temp.csv', {
         download: true,
         header: true,
         skipEmptyLines: true,

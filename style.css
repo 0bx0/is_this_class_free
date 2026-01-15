@@ -1,0 +1,323 @@
+:root {
+    /* BITS Pilani Palette */
+    --bits-blue: #2B2B88;
+    --bits-sky: #5CCAE8;
+    --bits-gold: #B78A2D;
+    --bits-red: #CF2027;
+
+    /* Minimalist Dark Theme */
+    --bg-color: #000000;
+    --card-bg: #111111;
+    --text-primary: #FFFFFF;
+    --text-secondary: #CCCCCC;
+    --border-color: #333333;
+
+    --booked-bg: rgba(207, 32, 39, 0.15);
+    /* bits-red tint */
+    --booked-text: #ff8a80;
+
+    --current-highlight-bg: rgba(92, 202, 232, 0.1);
+    /* bits-sky tint */
+    --current-border: var(--bits-sky);
+
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    padding-top: var(--spacing-md);
+}
+
+h1 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+h1 span {
+    color: var(--bits-gold);
+}
+
+p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    gap: var(--spacing-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid transparent;
+    /* reserved for scroll state if needed */
+}
+
+/* Status Card */
+.status-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.status-card.hidden {
+    display: none;
+}
+
+.status-card.free {
+    border-color: var(--bits-sky);
+    box-shadow: 0 0 15px rgba(92, 202, 232, 0.15);
+}
+
+.status-card.booked {
+    border-color: var(--bits-red);
+    box-shadow: 0 0 15px rgba(207, 32, 39, 0.15);
+}
+
+.status-icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #555;
+}
+
+/* Indicators */
+.status-card.free .status-icon {
+    background-color: var(--bits-sky);
+    box-shadow: 0 0 8px var(--bits-sky);
+}
+
+.status-card.booked .status-icon {
+    background-color: var(--bits-red);
+    box-shadow: 0 0 8px var(--bits-red);
+}
+
+.status-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.status-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-value {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Input Group */
+.input-group {
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+}
+
+input {
+    width: 100%;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 12px 16px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+input:focus {
+    border-color: var(--bits-gold);
+    box-shadow: 0 0 0 2px rgba(183, 138, 45, 0.1);
+}
+
+.status-msg {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    min-height: 1.2rem;
+}
+
+/* Timetable Container */
+.timetable-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 4px;
+    /* tiny padding around grid */
+    overflow-x: auto;
+    /* Custom scrollbar for container */
+}
+
+/* Grid Layout */
+.timetable {
+    display: grid;
+    /* 1 col for Day (approx 50px) + 11 cols */
+    grid-template-columns: 50px repeat(11, minmax(90px, 1fr));
+    gap: 1px;
+    background-color: var(--border-color);
+    /* Lines between cells */
+    border-radius: 8px;
+    /* Inner radius */
+    overflow: hidden;
+}
+
+.header-cell,
+.day-cell,
+.slot-cell {
+    background-color: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 4px;
+    min-height: 70px;
+}
+
+/* Sticky Headers */
+.header-cell {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background-color: #1a1a1a;
+    /* slightly lighter than card-bg */
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--bits-gold);
+}
+
+.time-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.day-cell {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background-color: #1a1a1a;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--bits-sky);
+    border-right: 1px solid var(--border-color);
+}
+
+/* Slots */
+.slot-cell {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+/* Booked State */
+.slot-cell.booked {
+    background-color: var(--booked-bg);
+    color: var(--text-primary);
+    border-left: 2px solid var(--bits-red);
+    /* Accent on left */
+}
+
+.course-code {
+    font-weight: 500;
+    font-size: 0.8rem;
+    line-height: 1.2;
+}
+
+/* Current Time Highlights */
+/* Highlight the whole row for the day */
+.current-day-row {
+    background-color: rgba(92, 202, 232, 0.03) !important;
+    /* Very subtle blue */
+}
+
+/* Highlight the whole column for the hour */
+.current-hour-col {
+    background-color: rgba(92, 202, 232, 0.03) !important;
+}
+
+/* The intersection (Right Now) */
+.current-now {
+    background-color: var(--current-highlight-bg) !important;
+    border: 1px solid var(--bits-sky);
+    color: var(--text-primary);
+    font-weight: 600;
+    box-shadow: inset 0 0 10px rgba(92, 202, 232, 0.1);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
